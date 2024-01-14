@@ -28,7 +28,7 @@ def canUnlockAll(boxes):
         if current_box_idx not in seen_boxes:
             # Add keys from the current box to unprocessed boxes
             unprocessed_boxes = unprocessed_boxes.union(boxes[current_box_idx])
-     
+
             # Mark the current box as seen
             seen_boxes.add(current_box_idx)
 
