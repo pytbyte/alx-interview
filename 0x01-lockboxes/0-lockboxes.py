@@ -2,7 +2,7 @@
 '''Unlock lockboxes module.
 '''
 
-def can_unlock_all(boxes):
+def canUnlockAll(boxes):
     '''Checks if all the boxes in a list of boxes can be unlocked.
 
     Args:
