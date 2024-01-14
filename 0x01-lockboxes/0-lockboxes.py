@@ -2,6 +2,7 @@
 '''Unlock lockboxes module.
 '''
 
+
 def canUnlockAll(boxes):
     '''Checks if all the boxes in a list of boxes can be unlocked.
 
