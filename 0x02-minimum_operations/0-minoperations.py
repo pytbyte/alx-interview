@@ -1,4 +1,7 @@
-#!/usr/bin/env python3
+#!/usr/bin/python
+"""
+minimum ops
+"""
 
 def min_operations_to_generate(target_count):
     """
