@@ -1,57 +1,39 @@
-#!/usr/bin/python
-"""
-minimum ops
-"""
+#!/usr/bin/python3
+'''Minimum operations coding challenge.
+'''
 
-def min_operations_to_generate(target_count):
-    """
-    Compute the fewest number of operations needed to
-    generate a string with
-    exactly target_count occurrences of the character 'H'
-    using Copy All and Paste operations.
 
-    Parameters:
-    - target_count (int): The desired number of 'H' characters.
-
-    Returns:
-    - int: The minimum number of operations required.
-      Returns 0 if the input is invalid or if
-      it's impossible to achieve the goal.
-    """
-    if not isinstance(target_count, int) or target_count <= 0:
+def minOperations(n):
+    '''
+    Computes the fewest number of operations needed to result
+    in exactly n H characters using Copy All and Paste operations.
+    '''
+    if not isinstance(n, int) or n <= 0:
+        # Invalid input, return 0 as it's impossible to achieve.
         return 0
 
-    total_operations = 0
-    clipboard_content = 0
-    characters_generated = 1
+    operations_count = 0  # To keep track of the total number of operations.
+    clipboard = 0  # The content in the clipboard that can be pasted.
+    characters_generated = 1  # The number of 'H' characters generated.
 
-    # Find prime factorization of target_count
-    current_factor = 2
-    while current_factor * current_factor <= target_count:
-        while target_count % current_factor == 0:
-            if clipboard_content == 0:
-                # If clipboard is empty, perform an initial Copy All and Paste.
-                clipboard_content = characters_generated
-                characters_generated += clipboard_content
-                total_operations += 2
-            else:
-                # Perform a Paste operation.
-                characters_generated += clipboard_content
-                total_operations += 1
-            target_count //= current_factor
-
-        current_factor += 1
-
-    if target_count > 1:
-        # There's a prime factor greater than sqrt(target_count)
-        if clipboard_content == 0:
+    # Perform operations until the desired number of characters is achieved.
+    while characters_generated < n:
+        if clipboard == 0:
             # If clipboard is empty, perform an initial Copy All and Paste.
-            clipboard_content = characters_generated
-            characters_generated += clipboard_content
-            total_operations += 2
-        else:
+            clipboard = characters_generated
+            characters_generated += clipboard
+            operations_count += 2
+        elif (n - characters_generated) % characters_generated == 0:
+            # If the remaining characters can be evenly divided by the
+            # current count,
+            # perform a Copy All and Paste.
+            clipboard = characters_generated
+            characters_generated += clipboard
+            operations_count += 2
+        elif clipboard > 0:
             # Perform a Paste operation.
-            characters_generated += clipboard_content
-            total_operations += 1
+            characters_generated += clipboard
+            operations_count += 1
 
-    return total_operations
+    return operations_count
+
