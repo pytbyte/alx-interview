@@ -27,8 +27,6 @@ def minOperations(n):
             resulting_characters += clipboard
             operations_count += 2
         elif clipboard > 0:
-            
             resulting_characters += clipboard
             operations_count += 1
-
     return operations_count
