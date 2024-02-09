@@ -1,20 +1,19 @@
 #!/usr/bin/python3
 '''Utf8 valodator.
 '''
+
+
 def validUTF8(data):
     """
     Check if a given data set represents a valid UTF-8 encoding.
-
     Args:
-        data (list of int): A list of integers representing bytes of the data set.
-
+        data (list of int): A list of integers.
     Returns:
         bool: True if data is a valid UTF-8 encoding, else False.
-
     Notes:
         - A character in UTF-8 can be 1 to 4 bytes long.
         - The data set can contain multiple characters.
-        - Each integer represents 1 byte of data; therefore, only the 8 least significant bits are considered.
+        - Each integer represents 1 byte of data; therefore.
 
     """
     # Variable to store the number of expected bytes for the current character
