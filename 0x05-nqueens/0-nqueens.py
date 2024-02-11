@@ -41,7 +41,9 @@ def is_attacking(pos0, pos1):
     Returns:
         bool: True if the queens are in an attacking position else False.
     """
-    return pos0[0] == pos1[0] or pos0[1] == pos1[1] or abs(pos0[0] - pos1[0]) == abs(pos0[1] - pos1[1])
+    if (pos0[0] == pos1[0]) or (pos0[1] == pos1[1]):
+        return True
+    return abs(pos0[0] - pos1[0]) == abs(pos0[1] - pos1[1])
 
 
 def group_exists(group):
@@ -53,25 +55,31 @@ def group_exists(group):
     Returns:
         bool: True if it exists, otherwise False.
     """
-    global solutions, n
-    for solution in solutions:
-        if all(position in solution for position in group):
+    global solutions
+    for stn in solutions:
+        i = 0
+        for stn_pos in stn:
+            for grp_pos in group:
+                if stn_pos[0] == grp_pos[0] and stn_pos[1] == grp_pos[1]:
+                    i += 1
+        if i == n:
             return True
     return False
 
 
 def build_solution(row, group):
-    """Builds a solution for the N queens problem.
+    """Builds a solution for the n queens problem.
 
     Args:
         row (int): The current row in the chessboard.
         group (list of lists of integers): The group of valid positions.
     """
-    global solutions, n
+    global solutions
+    global n
     if row == n:
-        temp_group = group.copy()
-        if not group_exists(temp_group):
-            solutions.append(temp_group)
+        tmp0 = group.copy()
+        if not group_exists(tmp0):
+            solutions.append(tmp0)
     else:
         for col in range(n):
             a = (row * n) + col
@@ -88,9 +96,9 @@ def get_solutions():
     """
     global pos, n
     pos = list(map(lambda x: [x // n, x % n], range(n ** 2)))
-    row = 0
+    a = 0
     group = []
-    build_solution(row, group)
+    build_solution(a, group)
 
 
 if __name__ == "__main__":
