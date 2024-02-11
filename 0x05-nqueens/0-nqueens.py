@@ -1,12 +1,18 @@
 #!/usr/bin/python3
 """N queens solution finder module.
 """
-
 import sys
 
+
 solutions = []
+"""The list of possible solutions to the N queens problem.
+"""
 n = 0
+"""The size of the chessboard.
+"""
 pos = None
+"""The list of possible positions on the chessboard.
+"""
 
 
 def get_input():
@@ -22,7 +28,7 @@ def get_input():
         sys.exit(1)
     try:
         n = int(sys.argv[1])
-    except ValueError:
+    except Exception:
         print("N must be a number")
         sys.exit(1)
     if n < 4:
@@ -101,8 +107,7 @@ def get_solutions():
     build_solution(a, group)
 
 
-if __name__ == "__main__":
-    n = get_input()
-    get_solutions()
-    for solution in solutions:
-        print(solution)
+n = get_input()
+get_solutions()
+for solution in solutions:
+    print(solution)
