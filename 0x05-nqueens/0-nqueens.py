@@ -35,7 +35,9 @@ def is_attacking(pos0, pos1):
     Returns:
         bool: True if the queens are in an attacking position else False.
     """
-    return pos0[0] == pos1[0] or pos0[1] == pos1[1] or abs(pos0[0] - pos1[0]) == abs(pos0[1] - pos1[1])
+    return any(pos0[i] == pos1[i] or
+               abs(pos0[i] - pos1[i]) == abs(pos0[1 - i] - pos1[1 - i])
+               for i in range(2))
 
 
 def group_exists(group, solutions, n):
