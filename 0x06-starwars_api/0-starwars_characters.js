@@ -1,8 +1,9 @@
 #!/usr/bin/node
 const request = require('request');
+
 const API_URL = 'https://swapi-api.hbtn.io/api';
 
-function promisifiedRequest (url) {
+function promisifiedRequest(url) {
   return new Promise((resolve, reject) => {
     request(url, (error, response, body) => {
       if (error) {
@@ -14,39 +15,32 @@ function promisifiedRequest (url) {
   });
 }
 
-async function fetchCharacterNames (filmId) {
+async function fetchCharacters(movieId) {
   try {
-    const { body: filmBody } = await promisifiedRequest(
-      `${API_URL}/films/${filmId}/`
-    );
-    const film = JSON.parse(filmBody);
-    const charactersURL = film.characters;
+    const { body: movieBody } = await promisifiedRequest(`${API_URL}/films/${movieId}/`);
+    const movie = JSON.parse(movieBody);
+    const charactersURL = movie.characters;
 
-    const characterNames = await Promise.all(
-      charactersURL.map(async (url) => {
-        const { body: characterBody } = await promisifiedRequest(url);
-        const character = JSON.parse(characterBody);
-        return character.name;
-      })
-    );
-
-    return characterNames;
+    for (const url of charactersURL) {
+      const { body: characterBody } = await promisifiedRequest(url);
+      const character = JSON.parse(characterBody);
+      console.log(character.name);
+    }
   } catch (error) {
-    throw new Error(`Error fetching character names: ${error}`);
+    throw new Error(`Error fetching characters: ${error}`);
   }
 }
 
-async function main () {
+async function main() {
   try {
     if (process.argv.length > 2) {
-      const filmId = process.argv[2];
-      const characterNames = await fetchCharacterNames(filmId);
-      console.log(characterNames.join('\n'));
+      const movieId = process.argv[2];
+      await fetchCharacters(movieId);
     } else {
-      console.log('Please provide a film ID.');
+      console.log('Please provide a movie ID.');
     }
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
   }
 }
 
