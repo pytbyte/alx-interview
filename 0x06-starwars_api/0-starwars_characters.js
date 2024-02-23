@@ -2,7 +2,7 @@
 const request = require('request');
 const API_URL = 'https://swapi-api.hbtn.io/api';
 
-function promisifiedRequest (url) {
+function promisifiedRequest(url) {
   return new Promise((resolve, reject) => {
     request(url, (error, response, body) => {
       if (error) {
@@ -14,7 +14,7 @@ function promisifiedRequest (url) {
   });
 }
 
-async function fetchCharacterNames (filmId) {
+async function fetchCharacterNames(filmId) {
   try {
     const { body: filmBody } = await promisifiedRequest(
       `${API_URL}/films/${filmId}/`
@@ -36,7 +36,7 @@ async function fetchCharacterNames (filmId) {
   }
 }
 
-async function main () {
+async function main() {
   try {
     if (process.argv.length > 2) {
       const filmId = process.argv[2];
