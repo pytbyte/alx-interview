@@ -13,7 +13,7 @@ def makeChange(coins, total):
     if total <= 0:
         return 0
 
-    coins.sort(reverse=True)  # Sort coins in descending order
+    coins.sort(reverse=True)
 
     coins_counter = 0
     idx = 0
