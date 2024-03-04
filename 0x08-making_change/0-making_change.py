@@ -1,4 +1,5 @@
-def minimum_coins(coins, total):
+#!/usr/bin/python3
+def makeChange(coins, total):
     """The objective is to find the minimum number of coins required
     to make up a given total amount, given a list of coin denominations.
     Args:
