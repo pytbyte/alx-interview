@@ -1,55 +1,33 @@
 #!/usr/bin/python3
-def calculate_island_perimeter(grid):
+"""Module for computing the perimeter of an island."""
+
+def island_perimeter(grid):
     """
-    Calculate the perimeter of the island described in the grid.
+    Computes the perimeter of an island represented by a grid.
 
     Args:
-        grid (list of lists of int): Represents the island, where 0 represents water and 1 represents land.
+        grid (list of list of int): Represents the island, where 0 represents water and 1 represents land.
 
     Returns:
         int: The perimeter of the island.
     """
     perimeter = 0
 
-    # Iterate through each cell in the grid
-    for i in range(len(grid)):
-        for j in range(len(grid[i])):
-            if grid[i][j] == 1:
-                perimeter += calculate_cell_perimeter(grid, i, j)
+    if not isinstance(grid, list):
+        return 0
+
+    num_rows = len(grid)
+    num_cols = len(grid[0]) if num_rows > 0 else 0
+
+    for row_index in range(num_rows):
+        for col_index in range(num_cols):
+            if grid[row_index][col_index] == 1:
+                edges = [
+                    (row_index == 0 or grid[row_index - 1][col_index] == 0),
+                    (col_index == num_cols - 1 or grid[row_index][col_index + 1] == 0),
+                    (row_index == num_rows - 1 or grid[row_index + 1][col_index] == 0),
+                    (col_index == 0 or grid[row_index][col_index - 1] == 0)
+                ]
+                perimeter += sum(edges)
 
     return perimeter
-
-def calculate_cell_perimeter(grid, i, j):
-    """
-    Calculate the perimeter contribution of a single cell.
-
-    Args:
-        grid (list of lists of int): Represents the island.
-        i (int): Row index of the cell.
-        j (int): Column index of the cell.
-
-    Returns:
-        int: The perimeter contribution of the cell.
-    """
-    perimeter_contribution = 0
-
-    # Check the adjacent cells
-    if i == 0 or grid[i - 1][j] == 0:
-        perimeter_contribution += 1
-    if i == len(grid) - 1 or grid[i + 1][j] == 0:
-        perimeter_contribution += 1
-    if j == 0 or grid[i][j - 1] == 0:
-        perimeter_contribution += 1
-    if j == len(grid[i]) - 1 or grid[i][j + 1] == 0:
-        perimeter_contribution += 1
-
-    return perimeter_contribution
-
-# Example usage:
-grid = [
-    [0, 1, 0, 0],
-    [1, 1, 1, 0],
-    [0, 1, 0, 0],
-    [1, 1, 0, 0]
-]
-print(calculate_island_perimeter(grid))  
