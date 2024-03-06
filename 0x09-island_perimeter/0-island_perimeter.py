@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 """Module for computing the perimeter of an island."""
 
+
 def island_perimeter(grid):
     """
     Computes the perimeter of an island represented by a grid.
 
     Args:
-        grid (list of list of int): Represents the island, where 0 represents water and 1 represents land.
+        grid (list of list of int): Represents the island,
+        where 0 represents water and 1 represents land.
 
     Returns:
         int: The perimeter of the island.
@@ -24,8 +26,10 @@ def island_perimeter(grid):
             if grid[row_index][col_index] == 1:
                 edges = [
                     (row_index == 0 or grid[row_index - 1][col_index] == 0),
-                    (col_index == num_cols - 1 or grid[row_index][col_index + 1] == 0),
-                    (row_index == num_rows - 1 or grid[row_index + 1][col_index] == 0),
+                    (col_index == num_cols - 1 or
+                     grid[row_index][col_index + 1] == 0),
+                    (row_index == num_rows - 1 or
+                     grid[row_index + 1][col_index] == 0),
                     (col_index == 0 or grid[row_index][col_index - 1] == 0)
                 ]
                 perimeter += sum(edges)
