@@ -6,8 +6,10 @@
 
 def generate_prime_counts(n):
     """
-    Generates an array where each index represents a number up to n,
-    and the value at each index represents the count of primes up to that number.
+    Generates an array where each index
+    represents a number up to n,
+    and the value at each index
+    represents the count of primes up to that number.
     """
     is_prime = [True for _ in range(max(n + 1, 2))]
     for i in range(2, int(pow(n, 0.5)) + 1):
