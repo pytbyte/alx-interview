@@ -1,63 +1,39 @@
 #!/usr/bin/python3
+""" Module for solving prime game question """
 
-def is_prime(num):
-    """
-    Check if a number is prime.
-
-    Args:
-        num (int): The number to check for primality.
-
-    Returns:
-        bool: True if the number is prime, False otherwise.
-    """
-    if num < 2:
-        return False
-    for i in range(2, int(num**0.5) + 1):
-        if num % i == 0:
-            return False
-    return True
-
-
-def isWinner(x, nums):
+def isWinner(x_rounds, nums):
     """
     Determine the winner of the prime game.
 
     Args:
-        x (int): The number of rounds to play.
-        nums (list): A list of integers representin
-          the values of 'n' for each round.
+        x_rounds (int): The number of rounds to play.
+        nums (list): A list of integers representing the values of 'n' for each round.
 
     Returns:
-        str or None: The name of the player that wo
-          the most rounds. Returns 'Maria',
-        'Ben', or None if the winner cannot be determined.
+        str or None: The name of the player that won the most rounds. Returns 'Maria',
+                     'Ben', or None if the winner cannot be determined.
     """
-    if not nums or x <= 0:
+    if not nums or x_rounds < 1:
         return None
+    max_num = max(nums)
 
-    wins_maria, wins_ben = 0, 0
-
-    for n in nums:
-        primes_left = [i for i in range(1, n + 1) if is_prime(i)]
-
-        current_player = "Maria"
-        while primes_left:
-            move = min(primes_left)
-            primes_left = [num for num in primes_left if num % move != 0]
-
-            if not primes_left:
-                break
-
-            current_player = "Ben" if current_player == "Maria" else "Maria"
-
-        if current_player == "Maria":
-            wins_maria += 1
-        else:
-            wins_ben += 1
-
-    return ("Maria" if wins_maria > wins_ben else "Ben"
-            if wins_ben > wins_maria else None)
-
-
-if __name__ == "__main__":
-    print("Winner: {}".format(isWinner(5, [2, 5, 1, 4, 3])))
+    prime_filter = [True for _ in range(max(max_num + 1, 2))]
+    for i in range(2, int(pow(max_num, 0.5)) + 1):
+        if not prime_filter[i]:
+            continue
+        for j in range(i * i, max_num + 1, i):
+            prime_filter[j] = False
+    prime_filter[0] = prime_filter[1] = False
+    prime_count = 0
+    for i in range(len(prime_filter)):
+        if prime_filter[i]:
+            prime_count += 1
+        prime_filter[i] = prime_count
+    player1_wins = 0
+    for x_value in nums:
+        player1_wins += prime_filter[x_value] % 2 == 1
+    if player1_wins * 2 == len(nums):
+        return None
+    if player1_wins * 2 > len(nums):
+        return "Maria"
+    return "Ben"
