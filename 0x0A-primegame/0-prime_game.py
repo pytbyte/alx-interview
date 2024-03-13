@@ -1,47 +1,60 @@
 #!/usr/bin/python3
-"""
-0x0A. Prime Game
-"""
+
+def is_prime(num):
+    """
+    Check if a number is prime.
+
+    Args:
+        num (int): The number to check for primality.
+
+    Returns:
+        bool: True if the number is prime, False otherwise.
+    """
+    if num < 2:
+        return False
+    for i in range(2, int(num**0.5) + 1):
+        if num % i == 0:
+            return False
+    return True
 
 
-def generate_prime_counts(n):
+def isWinner(x, nums):
     """
-    Generates an array where each index
-    represents a number up to n,
-    and the value at each index
-    represents the count of primes up to that number.
-    """
-    is_prime = [True for _ in range(max(n + 1, 2))]
-    for i in range(2, int(pow(n, 0.5)) + 1):
-        if not is_prime[i]:
-            continue
-        for j in range(i * i, n + 1, i):
-            is_prime[j] = False
-    is_prime[0] = is_prime[1] = False
-    prime_counts = [0] * (n + 1)
-    count = 0
-    for i in range(len(is_prime)):
-        if is_prime[i]:
-            count += 1
-        prime_counts[i] = count
-    return prime_counts
+    Determine the winner of the prime game.
 
+    Args:
+        x (int): The number of rounds to play.
+        nums (list): A list of integers representing the values of 'n' for each round.
 
-def is_winner(x, nums):
+    Returns:
+        str or None: The name of the player that won the most rounds. Returns 'Maria',
+                     'Ben', or None if the winner cannot be determined.
     """
-    Determines the winner of the most rounds of a prime game
-    """
-    if not nums or x < 1:
+    if not nums or x <= 0:
         return None
 
-    max_num = max(nums)
-    prime_counts = generate_prime_counts(max_num)
+    wins_maria, wins_ben = 0, 0
 
-    maria_wins = sum(prime_counts[n] % 2 == 1 for n in nums)
+    for n in nums:
+        primes_left = [i for i in range(1, n + 1) if is_prime(i)]
 
-    if maria_wins * 2 == len(nums):
-        return None
-    elif maria_wins * 2 > len(nums):
-        return "Maria"
-    else:
-        return "Ben"
+        current_player = "Maria"
+        while primes_left:
+            move = min(primes_left)
+            primes_left = [num for num in primes_left if num % move != 0]
+
+            if not primes_left:
+                break
+
+            current_player = "Ben" if current_player == "Maria" else "Maria"
+
+        if current_player == "Maria":
+            wins_maria += 1
+        else:
+            wins_ben += 1
+
+    return "Maria" if wins_maria > wins_ben else "Ben" if wins_ben > wins_maria else None
+
+
+if __name__ == "__main__":
+    print("Winner: {}".format(isWinner(5, [2, 5, 1, 4, 3])))
